@@ -1,15 +1,11 @@
-from sklearn import metrics
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import time
-import os
-import seaborn as sns
-import matplotlib
-from matplotlib import pyplot as plt
-from sklearn.metrics import plot_confusion_matrix
+import seaborn as sn
+import matplotlib.pyplot as plt
 
 (train_x, train_y), (test_x, test_y) = keras.datasets.mnist.load_data()
+
 train_x = train_x / 255.0
 test_x = test_x / 255.0
 
@@ -27,20 +23,18 @@ lenet_5_model = keras.models.Sequential([
         activation='tanh',
         input_shape=train_x[0].shape,
         padding='same'),
-    # C1
-    keras.layers.AveragePooling2D(),  # S2
+    keras.layers.AveragePooling2D(), 
     keras.layers.Conv2D(
         16,
         kernel_size=5,
         strides=1,
         activation='tanh',
         padding='valid'),
-    # C3
-    keras.layers.AveragePooling2D(),  # S4
-    keras.layers.Flatten(),  # Flatten
-    keras.layers.Dense(120, activation='tanh'),  # C5
-    keras.layers.Dense(84, activation='tanh'),  # F6
-    keras.layers.Dense(10, activation='softmax')  # Output layer
+    keras.layers.AveragePooling2D(),
+    keras.layers.Flatten(), 
+    keras.layers.Dense(120, activation='tanh'),  
+    keras.layers.Dense(84, activation='tanh'), 
+    keras.layers.Dense(10, activation='softmax') 
 ])
 
 lenet_5_model.compile(
@@ -48,23 +42,20 @@ lenet_5_model.compile(
     loss=keras.losses.sparse_categorical_crossentropy,
     metrics=['accuracy'])
 
-root_logdir = os.path.join(os.curdir, "logs\\fit\\")
-
-
-def get_run_logdir():
-    run_id = time.strftime("run_%Y_%m_%d-%H_%M_%S")
-    return os.path.join(root_logdir, run_id)
-
-
-run_logdir = get_run_logdir()
-tensorboard_cb = keras.callbacks.TensorBoard(run_logdir)
 lenet_5_model.fit(
     train_x,
     train_y,
     epochs=1,
     validation_data=(
         val_x,
-        val_y),
-    callbacks=[tensorboard_cb])
-lenet_5_model.evaluate(test_x, test_y)
+        val_y))
 
+lenet_5_model.evaluate(test_x, test_y)
+y_predicted = lenet_5_model.predict(test_x)
+y_predicted_labels = [np.argmax(i) for i in y_predicted]
+cm = tf.math.confusion_matrix(labels=test_y, predictions=y_predicted_labels)
+plt.figure(figsize=(10, 7))
+sn.heatmap(cm, annot=True, fmt='d',cmap="Blues")
+plt.xlabel('Predicted')
+plt.ylabel('Truth')
+plt.show()
