@@ -43,7 +43,7 @@ def main():
     history = model.fit(
         train_x,
         train_y,
-        epochs=2,
+        epochs=30,
         validation_data=(
             val_x,
             val_y))
