@@ -18,7 +18,7 @@ def plot(c_m, history):
     plt.title('Accuracy')
     plt.ylabel('accuracy')
     plt.xlabel('Epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train', 'test'])
 
     plt.subplot(212)
     plt.plot(history.history['loss'])
@@ -26,7 +26,7 @@ def plot(c_m, history):
     plt.title('Loss')
     plt.ylabel('loss')
     plt.xlabel('Epoch')
-    plt.legend(['train', 'test'], loc='upper left')
+    plt.legend(['train', 'test'])
     plt.show()
 
 
@@ -38,7 +38,7 @@ def main():
     test_x = tf.expand_dims(test_x, 3)
     val_x = train_x[:5000]
     val_y = train_y[:5000]
-    model = LeNet(train_x[0].shape)
+    model = LeNet()
     optimizer(model)
     history = model.fit(
         train_x,

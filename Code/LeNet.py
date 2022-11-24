@@ -4,23 +4,22 @@ import tensorflow as tf
 class LeNet(tf.keras.Model):
     """Class for LeNet architecture."""
 
-    def __init__(self, input_shape):
+    def __init__(self):
         super().__init__()
         self.conv1 = tf.keras.layers.Conv2D(
             6,
             kernel_size=5,
             strides=1,
             activation='tanh',
-            input_shape=input_shape,
             padding='same')
-        self.ap1 = tf.keras.layers.AveragePooling2D()
+        self.ap1 = tf.keras.layers.AveragePooling2D(pool_size=2,strides=2)
         self.conv2 = tf.keras.layers.Conv2D(
             16,
             kernel_size=5,
             strides=1,
             activation='tanh',
             padding='valid')
-        self.ap2 = tf.keras.layers.AveragePooling2D()
+        self.ap2 = tf.keras.layers.AveragePooling2D(pool_size=2,strides=2)
         self.flatten = tf.keras.layers.Flatten()
         self.dense1 = tf.keras.layers.Dense(120, activation='tanh')
         self.dense2 = tf.keras.layers.Dense(84, activation='tanh')
