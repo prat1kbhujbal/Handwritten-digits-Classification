@@ -47,8 +47,9 @@ def main():
         validation_data=(
             val_x,
             val_y))
+    print("Evaluation on test data")
     model.evaluate(test_x, test_y)
-    y_predicted = model.predict(test_x)
+    y_predicted = model.predict(test_x, verbose=0)
     y_predicted_labels = [np.argmax(i) for i in y_predicted]
     c_m = tf.math.confusion_matrix(
         labels=test_y, predictions=y_predicted_labels)
