@@ -28,6 +28,7 @@ class LeNet(tf.keras.Model):
     def call(self, input):
         out = self.conv1(input)
         out = self.ap1(out)
+        out = self.conv2(out)
         out = self.ap2(out)
         out = self.flatten(out)
         out = self.dense1(out)
