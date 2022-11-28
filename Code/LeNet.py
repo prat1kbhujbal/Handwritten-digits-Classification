@@ -1,5 +1,6 @@
+import seaborn as sn
 import tensorflow as tf
-
+import matplotlib.pyplot as plt
 
 class LeNet(tf.keras.Model):
     """Class for LeNet architecture."""
@@ -50,3 +51,27 @@ def optimizer(model):
         optimizer='adam',
         loss=tf.keras.losses.sparse_categorical_crossentropy,
         metrics=['accuracy'])
+
+def plot(c_m, history):
+    plt.figure(1, figsize=(10, 7))
+    sn.heatmap(c_m, annot=True, fmt='d', cmap="Blues")
+    plt.title("Confusion Matrix")
+    plt.xlabel('Predicted')
+    plt.ylabel('Truth')
+    # plt.figure(2, figsize=(12, 9))
+    # plt.subplot(211)
+    # plt.plot(history.history['accuracy'])
+    # plt.plot(history.history['val_accuracy'])
+    # plt.title('Accuracy')
+    # plt.ylabel('ccuracy')
+    # plt.xlabel('Epoch')
+    # plt.legend(['train', 'test'])
+
+    # plt.subplot(212)
+    # plt.plot(history.history['loss'])
+    # plt.plot(history.history['val_loss'])
+    # plt.title('Loss')
+    # plt.ylabel('loss')
+    # plt.xlabel('Epoch')
+    # plt.legend(['train', 'test'])
+    plt.show()

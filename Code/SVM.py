@@ -1,3 +1,4 @@
+import seaborn as sn
 import matplotlib.pyplot as plt
 from sklearn.svm import LinearSVC, SVC
 from sklearn.metrics import accuracy_score
@@ -43,7 +44,7 @@ class SVM:
             pred_test = model.predict(self.test_x)
             model_acc = accuracy_score(self.train_y, pred_train)
             test_acc = accuracy_score(self.test_y, pred_test)
-            print("Model accuracy: ", model_acc)
+            print("Training accuracy: ", model_acc)
             print("Test accuracy: ", test_acc)
         else:
             model = SVC(kernel='rbf', gamma=0.5, C=_c)
@@ -54,3 +55,4 @@ class SVM:
             test_acc = accuracy_score(self.test_y, pred_test)
             print("Model accuracy: ", model_acc)
             print("Test accuracy: ", test_acc)
+            

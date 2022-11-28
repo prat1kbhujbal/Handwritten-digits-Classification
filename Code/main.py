@@ -1,38 +1,11 @@
 import numpy as np
-import seaborn as sn
 import tensorflow as tf
-import matplotlib.pyplot as plt
-from LeNet import *
-from SVM import *
-from LR_2 import *
-from sklearn.preprocessing import StandardScaler
+from SVM import SVM
+from LR import LogisticRegression
+from LeNet import LeNet, optimizer, plot
 from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-
-
-def plot(c_m, history):
-    plt.figure(1, figsize=(10, 7))
-    sn.heatmap(c_m, annot=True, fmt='d', cmap="Blues")
-    plt.title("Confusion Matrix")
-    plt.xlabel('Predicted')
-    plt.ylabel('Truth')
-    plt.figure(2, figsize=(12, 9))
-    plt.subplot(211)
-    plt.plot(history.history['accuracy'])
-    plt.plot(history.history['val_accuracy'])
-    plt.title('Accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('Epoch')
-    plt.legend(['train', 'test'])
-
-    plt.subplot(212)
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('Loss')
-    plt.ylabel('loss')
-    plt.xlabel('Epoch')
-    plt.legend(['train', 'test'])
-    plt.show()
 
 
 def main():
@@ -114,9 +87,10 @@ def main():
         LR = LogisticRegression(10)
         LR.fit(train_x, train_y)
         training_acc = np.sum(train_y == LR.predict(train_x)) / len(train_y)
-        print("Training Accuracy ", training_acc)
-        test_acc = np.sum(test_y == LR.predict(test_x)) / len(test_y) 
-        print("Testing Accuracy ", test_acc)
+        print(f"Training Accuracy : {training_acc:.2f}")
+        test_acc = np.sum(test_y == LR.predict(test_x)) / len(test_y)
+        print(f"Testing Accuracy : {test_acc:.2f}")
+        LR.plot()
 
 
 if __name__ == '__main__':

@@ -1,9 +1,10 @@
 import numpy as np
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 
 class LogisticRegression():
-    def __init__(self, num_classes, l_r=0.1, epochs=500) -> None:
+    def __init__(self, num_classes, l_r=0.9, epochs=10) -> None:
         self.l_r = l_r
         self.iter = epochs
         self.num_classes = num_classes
@@ -20,18 +21,18 @@ class LogisticRegression():
         N, n = X.shape
         self.w = np.random.random((n, self.num_classes))
         self.bias = np.random.random(self.num_classes)
-        for i in range(self.iter):
+        for i in range(1, self.iter + 1):
             z = X @ self.w + self.bias
             sf_max = self.softmax(z)
             y_1 = tf.keras.utils.to_categorical(y)
             self.update_grad(X, N, sf_max, y_1)
-            loss = self.cross_entropy_loss(y, sf_max)
+            self.cross_entropy_loss(y, sf_max)
             accuracy = np.sum(y == self.predict(X)) / len(y)
             self.accuracy.append(accuracy)
-            if i % 100 == 0:
+            print("i", i)
+            if i % 25 == 0:
                 print(
-                    'Epoch :{epoch} Loss :{loss} Accuracy {acc}'.format(
-                        epoch=i, loss=loss, acc=accuracy))
+                    f"Epoch : {i} Loss : {self.loss_arr[i-1]:.4f} Accuracy : {accuracy:.4f}")
         return self
 
     def softmax(self, z):
@@ -43,9 +44,21 @@ class LogisticRegression():
     def cross_entropy_loss(self, y, sm):
         loss = -np.mean(np.log(sm[np.arange(len(y)), y]))
         self.loss_arr.append(loss)
-        return loss
 
     def predict(self, X):
         z = X @ self.w + self.bias
         out = self.softmax(z)
         return np.argmax(out, axis=1)
+
+    def plot(self):
+        plt.figure(1)
+        plt.plot(np.arange(1, self.iter + 1), self.loss_arr)
+        plt.title("Training Loss")
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+    
+        plt.figure(2)
+        plt.plot(np.arange(1, len(self.accuracy) + 1), self.accuracy)
+        plt.ylabel('Accuracy')
+        plt.xlabel('Epoch')
+        plt.show()
