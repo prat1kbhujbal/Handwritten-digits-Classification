@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from LeNet import *
-from SVM_c import *
+from SVM import *
 
 
 def plot(c_m, history):
@@ -52,7 +52,7 @@ def main():
         history = model.fit(
             train_x,
             train_y,
-            epochs=30,
+            epochs=20,
             validation_data=(
                 val_x,
                 val_y))
@@ -63,6 +63,7 @@ def main():
         c_m = tf.math.confusion_matrix(
             labels=test_y, predictions=y_predicted_labels)
         plot(c_m, history)
+
     elif method == "SVM":
         train_x = train_x.reshape(
             (train_x.shape[0],

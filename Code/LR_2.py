@@ -1,11 +1,15 @@
 import numpy as np
-import seaborn as sn
 import tensorflow as tf
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 
+class LogisticRegression():
+    def __init__(self, l_r=0.01, epochs=1000,num_classes) -> None:
+        self.l_r = l_r
+        self.iter = epochs
+        self.num_classes = num_classes
+
+    def fit(self,X,y):
+        
 def predict(X, w, b):
     z = X @ w + b
     y_hat = softmax(z)
@@ -18,6 +22,7 @@ def softmax(z):
         exp[i] /= np.sum(exp[i])
     return exp
 
+
 def fit(X, y, lr, c, epochs):
     m, n = X.shape
     w = np.random.random((n, c))
@@ -27,10 +32,6 @@ def fit(X, y, lr, c, epochs):
         z = X @ w + b
         y_hat = softmax(z)
         y_hot = tf.keras.utils.to_categorical(y)
-        # onehot_encoder = OneHotEncoder(sparse=False)
-        # integer_encoded = y.reshape(len(y), 1)
-        # y_hot = onehot_encoder.fit_transform(integer_encoded)
-        # y_hot = one_hot(y, c)
         w_grad = (1 / m) * np.dot(X.T, (y_hat - y_hot))
         b_grad = (1 / m) * np.sum(y_hat - y_hot)
         w = w - lr * w_grad
@@ -65,7 +66,7 @@ def main():
     pca = PCA(n_components=3)
     train_x = pca.fit_transform(train_x)
     test_x = pca.transform(test_x)
-    
+
     w, b, l = fit(train_x, train_y, lr=0.9, c=10, epochs=1000)
     train_preds = predict(train_x, w, b)
     tr_acc = accuracy(train_y, train_preds)
