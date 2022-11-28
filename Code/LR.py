@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 
 class LogisticRegression():
-    def __init__(self, num_classes, l_r=0.9, epochs=10) -> None:
+    def __init__(self, num_classes, l_r=0.9, epochs=25) -> None:
         self.l_r = l_r
         self.iter = epochs
         self.num_classes = num_classes
@@ -29,7 +29,6 @@ class LogisticRegression():
             self.cross_entropy_loss(y, sf_max)
             accuracy = np.sum(y == self.predict(X)) / len(y)
             self.accuracy.append(accuracy)
-            print("i", i)
             if i % 25 == 0:
                 print(
                     f"Epoch : {i} Loss : {self.loss_arr[i-1]:.4f} Accuracy : {accuracy:.4f}")

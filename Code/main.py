@@ -1,9 +1,11 @@
+import pprint
 import numpy as np
 import tensorflow as tf
 from SVM import SVM
 from LR import LogisticRegression
 from LeNet import LeNet, optimizer, plot
 from sklearn.decomposition import PCA
+from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import StandardScaler
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
@@ -84,12 +86,15 @@ def main():
             lda = LinearDiscriminantAnalysis(n_components=9)
             train_x = lda.fit_transform(train_x, train_y)
             test_x = lda.transform(test_x)
-        LR = LogisticRegression(10)
+        LR = LogisticRegression(10, epochs=10)
         LR.fit(train_x, train_y)
         training_acc = np.sum(train_y == LR.predict(train_x)) / len(train_y)
         print(f"Training Accuracy : {training_acc:.2f}")
-        test_acc = np.sum(test_y == LR.predict(test_x)) / len(test_y)
+        test_pred = LR.predict(test_x)
+        test_acc = np.sum(test_y == test_pred) / len(test_y)
         print(f"Testing Accuracy : {test_acc:.2f}")
+        print("Confusion Matrix: ")
+        pprint.pprint(confusion_matrix(test_y, test_pred))
         LR.plot()
 
 
