@@ -2,11 +2,12 @@ import numpy as np
 import seaborn as sn
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from LeNet import *
+from SVM import *
+from LR_2 import *
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from LeNet import *
-from SVM import *
 
 
 def plot(c_m, history):
@@ -38,7 +39,7 @@ def main():
     (train_x, train_y), (test_x, test_y) = tf.keras.datasets.mnist.load_data()
     train_x = train_x / 255.0
     test_x = test_x / 255.0
-    method = "SVM"
+    method = ""
     dim_reduction = "LDA"
     kernel = "RBF"
 
@@ -89,7 +90,34 @@ def main():
         svm = SVM(train_x, train_y, test_x, test_y, kernel)
         svm.svm()
     else:
-        pass
+        train_x = train_x.reshape(
+            (train_x.shape[0],
+             train_x.shape[1] *
+             train_x.shape[2]))
+        test_x = test_x.reshape(
+            (test_x.shape[0],
+             test_x.shape[1] *
+             test_x.shape[2]))
+        scaler = StandardScaler()
+        if dim_reduction == "PCA":
+            train_x = scaler.fit_transform(train_x)
+            test_x = scaler.transform(test_x)
+            pca = PCA(n_components=90)
+            train_x = pca.fit_transform(train_x)
+            test_x = pca.transform(test_x)
+        elif dim_reduction == "LDA":
+            train_x = scaler.fit_transform(train_x)
+            test_x = scaler.transform(test_x)
+            lda = LinearDiscriminantAnalysis(n_components=9)
+            train_x = lda.fit_transform(train_x, train_y)
+            test_x = lda.transform(test_x)
+        LR = LogisticRegression(10)
+        LR.fit(train_x, train_y)
+        training_acc = np.sum(train_y == LR.predict(train_x)) / len(train_y)
+        print("Training Accuracy ", training_acc)
+        test_acc = np.sum(test_y == LR.predict(test_x)) / len(test_y) 
+        print("Testing Accuracy ", test_acc)
+
 
 if __name__ == '__main__':
     main()

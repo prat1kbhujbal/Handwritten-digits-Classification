@@ -1,81 +1,51 @@
 import numpy as np
-import seaborn as sn
 import tensorflow as tf
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 
-def predict(X, w, b):
-    z = X @ w + b
-    y_hat = softmax(z)
-    return np.argmax(y_hat, axis=1)
+class LogisticRegression():
+    def __init__(self, num_classes, l_r=0.1, epochs=500) -> None:
+        self.l_r = l_r
+        self.iter = epochs
+        self.num_classes = num_classes
+        self.loss_arr = []
+        self.accuracy = []
 
+    def update_grad(self, X, N, sm, y_1):
+        w_g = (1 / N) * np.dot(X.T, (sm - y_1))
+        b_g = (1 / N) * np.sum(sm - y_1)
+        self.w -= self.l_r * w_g
+        self.bias -= self.l_r * b_g
 
-def softmax(z):
-    exp = np.exp(z - np.max(z))
-    for i in range(len(z)):
-        exp[i] /= np.sum(exp[i])
-    return exp
+    def fit(self, X, y):
+        N, n = X.shape
+        self.w = np.random.random((n, self.num_classes))
+        self.bias = np.random.random(self.num_classes)
+        for i in range(self.iter):
+            z = X @ self.w + self.bias
+            sf_max = self.softmax(z)
+            y_1 = tf.keras.utils.to_categorical(y)
+            self.update_grad(X, N, sf_max, y_1)
+            loss = self.cross_entropy_loss(y, sf_max)
+            accuracy = np.sum(y == self.predict(X)) / len(y)
+            self.accuracy.append(accuracy)
+            if i % 100 == 0:
+                print(
+                    'Epoch :{epoch} Loss :{loss} Accuracy {acc}'.format(
+                        epoch=i, loss=loss, acc=accuracy))
+        return self
 
+    def softmax(self, z):
+        out = np.exp(z - np.max(z))
+        for i in range(len(z)):
+            out[i] /= np.sum(out[i])
+        return out
 
-def fit(X, y, lr, c, epochs):
-    m, n = X.shape
-    w = np.random.random((n, c))
-    b = np.random.random(c)
-    losses = []
-    for epoch in range(epochs):
-        z = X @ w + b
-        y_hat = softmax(z)
-        y_hot = tf.keras.utils.to_categorical(y)
-        # onehot_encoder = OneHotEncoder(sparse=False)
-        # integer_encoded = y.reshape(len(y), 1)
-        # y_hot = onehot_encoder.fit_transform(integer_encoded)
-        # y_hot = one_hot(y, c)
-        w_grad = (1 / m) * np.dot(X.T, (y_hat - y_hot))
-        b_grad = (1 / m) * np.sum(y_hat - y_hot)
-        w = w - lr * w_grad
-        b = b - lr * b_grad
-        loss = -np.mean(np.log(y_hat[np.arange(len(y)), y]))
-        losses.append(loss)
-        if epoch % 100 == 0:
-            pd = predict(X, w, b)
-            print('Epoch {epoch}==> Loss = {loss} Acc = {acc}'
-                  .format(epoch=epoch, loss=loss, acc=accuracy(y, pd)))
-    return w, b, losses
+    def cross_entropy_loss(self, y, sm):
+        loss = -np.mean(np.log(sm[np.arange(len(y)), y]))
+        self.loss_arr.append(loss)
+        return loss
 
-
-def accuracy(y, y_hat):
-    return np.sum(y == y_hat) / len(y)
-
-
-def main():
-    (train_x, train_y), (test_x, test_y) = tf.keras.datasets.mnist.load_data()
-    train_x = train_x / 255.0
-    test_x = test_x / 255.0
-    train_x = train_x.reshape(
-        (train_x.shape[0],
-         train_x.shape[1] *
-         train_x.shape[2]))
-    test_x = test_x.reshape(
-        (test_x.shape[0],
-         test_x.shape[1] *
-         test_x.shape[2]))
-    scaler = StandardScaler()
-    train_x = scaler.fit_transform(train_x)
-    test_x = scaler.transform(test_x)
-    pca = PCA(n_components=100)
-    train_x = pca.fit_transform(train_x)
-    test_x = pca.transform(test_x)
-
-    w, b, l = fit(train_x, train_y, lr=0.9, c=10, epochs=1000)
-    train_preds = predict(train_x, w, b)
-    tr_acc = accuracy(train_y, train_preds)
-    print("tra ", tr_acc)
-    test_preds = predict(test_x, w, b)
-    ts_acc = accuracy(test_y, test_preds)
-    print("tsa ", ts_acc)
-
-
-if __name__ == '__main__':
-    main()
+    def predict(self, X):
+        z = X @ self.w + self.bias
+        out = self.softmax(z)
+        return np.argmax(out, axis=1)
