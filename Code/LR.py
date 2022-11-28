@@ -18,6 +18,7 @@ def softmax(z):
         exp[i] /= np.sum(exp[i])
     return exp
 
+
 def fit(X, y, lr, c, epochs):
     m, n = X.shape
     w = np.random.random((n, c))
@@ -38,8 +39,9 @@ def fit(X, y, lr, c, epochs):
         loss = -np.mean(np.log(y_hat[np.arange(len(y)), y]))
         losses.append(loss)
         if epoch % 100 == 0:
-            print('Epoch {epoch}==> Loss = {loss}'
-                  .format(epoch=epoch, loss=loss))
+            pd = predict(X, w, b)
+            print('Epoch {epoch}==> Loss = {loss} Acc = {acc}'
+                  .format(epoch=epoch, loss=loss, acc=accuracy(y, pd)))
     return w, b, losses
 
 
@@ -62,10 +64,10 @@ def main():
     scaler = StandardScaler()
     train_x = scaler.fit_transform(train_x)
     test_x = scaler.transform(test_x)
-    pca = PCA(n_components=3)
+    pca = PCA(n_components=100)
     train_x = pca.fit_transform(train_x)
     test_x = pca.transform(test_x)
-    
+
     w, b, l = fit(train_x, train_y, lr=0.9, c=10, epochs=1000)
     train_preds = predict(train_x, w, b)
     tr_acc = accuracy(train_y, train_preds)
