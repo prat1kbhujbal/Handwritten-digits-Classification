@@ -56,7 +56,6 @@ def optimizer(model):
 
 def plot(c_m, history):
     plt.figure(1, figsize=(10, 7))
-    
     sn.heatmap(c_m, annot=True, fmt='d', cmap="Blues")
     plt.title("Confusion Matrix")
     plt.xlabel('Predicted')
