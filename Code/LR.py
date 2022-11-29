@@ -1,6 +1,8 @@
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+from itertools import product
 
 
 class LogisticRegression():
@@ -49,15 +51,25 @@ class LogisticRegression():
         out = self.softmax(z)
         return np.argmax(out, axis=1)
 
-    def plot(self):
+    def plot(self, test_y, test_pred):
         plt.figure(1)
         plt.plot(np.arange(1, self.iter + 1), self.loss_l)
         plt.title("Training Loss")
         plt.xlabel("Epoch")
         plt.ylabel("Loss")
-    
+
         plt.figure(2)
         plt.plot(np.arange(1, len(self.accuracy) + 1), self.accuracy)
         plt.ylabel('Accuracy')
         plt.xlabel('Epoch')
+
+        plt.figure(3)
+        cm = confusion_matrix(test_y, test_pred)
+        plt.imshow(cm, cmap=plt.cm.get_cmap('Paired'))
+        indexes = np.arange(self.num_classes)
+        for i, j in product(indexes, indexes):
+            plt.text(
+                j, i, cm[i, j],
+                ha='center', va='center')
+        plt.colorbar()
         plt.show()

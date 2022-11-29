@@ -6,7 +6,6 @@ from SVM import SVM
 from LR import LogisticRegression
 from LeNet import LeNet, optimizer, plot
 from sklearn.decomposition import PCA
-from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import StandardScaler
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
@@ -14,7 +13,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        '--Method', default='Lenet',
+        '--Method', default='',
         help='classifiers')
     parse.add_argument(
         '--DimRed', default='PCA',
@@ -100,16 +99,15 @@ def main():
             lda = LinearDiscriminantAnalysis(n_components=9)
             train_x = lda.fit_transform(train_x, train_y)
             test_x = lda.transform(test_x)
-        LR = LogisticRegression(10, l_r=0.9, epochs=300)
+        LR = LogisticRegression(10, l_r=0.9, epochs=50)
         LR.fit(train_x, train_y)
         training_acc = np.sum(train_y == LR.predict(train_x)) / len(train_y)
         print(f"Training Accuracy : {training_acc:.2f}")
         test_pred = LR.predict(test_x)
         test_acc = np.sum(test_y == test_pred) / len(test_y)
         print(f"Testing Accuracy : {test_acc:.2f}")
-        print("Confusion Matrix: ")
-        pprint.pprint(confusion_matrix(test_y, test_pred))
-        LR.plot()
+        test_acc = np.sum(test_y == test_pred) / len(test_y)
+        LR.plot(test_y, test_pred)
 
 
 if __name__ == '__main__':
