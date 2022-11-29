@@ -2,6 +2,7 @@ import seaborn as sn
 import tensorflow as tf
 import matplotlib.pyplot as plt
 
+
 class LeNet(tf.keras.Model):
     """Class for LeNet architecture."""
 
@@ -13,14 +14,14 @@ class LeNet(tf.keras.Model):
             strides=1,
             activation='tanh',
             padding='same')
-        self.ap1 = tf.keras.layers.AveragePooling2D(pool_size=2,strides=2)
+        self.ap1 = tf.keras.layers.AveragePooling2D(pool_size=2, strides=2)
         self.conv2 = tf.keras.layers.Conv2D(
             16,
             kernel_size=5,
             strides=1,
             activation='tanh',
             padding='valid')
-        self.ap2 = tf.keras.layers.AveragePooling2D(pool_size=2,strides=2)
+        self.ap2 = tf.keras.layers.AveragePooling2D(pool_size=2, strides=2)
         self.flatten = tf.keras.layers.Flatten()
         self.dense1 = tf.keras.layers.Dense(120, activation='tanh')
         self.dense2 = tf.keras.layers.Dense(84, activation='tanh')
@@ -51,6 +52,7 @@ def optimizer(model):
         optimizer='adam',
         loss=tf.keras.losses.sparse_categorical_crossentropy,
         metrics=['accuracy'])
+
 
 def plot(c_m, history):
     plt.figure(1, figsize=(10, 7))

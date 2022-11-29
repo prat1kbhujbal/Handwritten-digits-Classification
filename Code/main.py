@@ -1,4 +1,5 @@
 import pprint
+import argparse
 import numpy as np
 import tensorflow as tf
 from SVM import SVM
@@ -11,12 +12,24 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 
 
 def main():
+    parse = argparse.ArgumentParser()
+    parse.add_argument(
+        '--Method', default='Lenet',
+        help='classifiers')
+    parse.add_argument(
+        '--DimRed', default='PCA',
+        help='Dimensionality Reduction for SVM and Logistic Regression')
+    parse.add_argument(
+        '--Kernel', default='Polynomial',
+        help='kernel for Kernel SVM')
+    args = parse.parse_args()
+    method = args.Method
+    dim_reduction = args.DimRed
+    kernel = args.Kernel
+
     (train_x, train_y), (test_x, test_y) = tf.keras.datasets.mnist.load_data()
     train_x = train_x / 255.0
     test_x = test_x / 255.0
-    method = "SVM"
-    dim_reduction = "PCA"
-    kernel = "RBF"
 
     if method == "Lenet":
         train_x = tf.expand_dims(train_x, 3)
@@ -28,7 +41,7 @@ def main():
         history = model.fit(
             train_x,
             train_y,
-            epochs=20,
+            epochs=10,
             validation_data=(
                 val_x,
                 val_y))
@@ -87,7 +100,7 @@ def main():
             lda = LinearDiscriminantAnalysis(n_components=9)
             train_x = lda.fit_transform(train_x, train_y)
             test_x = lda.transform(test_x)
-        LR = LogisticRegression(10, l_r=0.9, epochs=10)
+        LR = LogisticRegression(10, l_r=0.9, epochs=300)
         LR.fit(train_x, train_y)
         training_acc = np.sum(train_y == LR.predict(train_x)) / len(train_y)
         print(f"Training Accuracy : {training_acc:.2f}")

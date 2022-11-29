@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from sklearn.svm import LinearSVC, SVC
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score
 
 
 class SVM:
@@ -10,14 +10,16 @@ class SVM:
         self.train_y = train_y
         self.test_x = test_x
         self.test_y = test_y
-        self.regularization = [0.25, 0.5, 0.75, 1, 1.25]
+        self.regularization = [0.25, 0.50, 0.75, 1.00, 1.25]
         self.accuracy_list = []
 
     def svm(self):
         if self.kernel == "Linear":
+            print("Kernel ", self.kernel)
             for _c in self.regularization:
                 self.linear_svm(_c)
         elif self.kernel == "Polynomial" or self.kernel == "RBF":
+            print("Kernel ", self.kernel)
             for _c in self.regularization:
                 self.kernel_svm(_c)
 
@@ -35,7 +37,7 @@ class SVM:
         test_acc = accuracy_score(self.test_y, pred_test)
         self.accuracy_list.append(model_acc)
         print(
-            f"Regularization Parameter : {_c} Training Accuracy : {model_acc} Test Accuracy : {test_acc}")
+            f"Regularization : {_c} Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
 
     def kernel_svm(self, _c):
         if self.kernel == "Polynomial":
@@ -47,7 +49,7 @@ class SVM:
             test_acc = accuracy_score(self.test_y, pred_test)
             self.accuracy_list.append(model_acc)
             print(
-                f"Regularization Parameter : {_c} Training Accuracy : {model_acc} Test Accuracy : {test_acc}")
+                f"Regularization : {_c}Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
 
         else:
             model = SVC(kernel='rbf', gamma=0.5, C=_c)
@@ -58,7 +60,7 @@ class SVM:
             test_acc = accuracy_score(self.test_y, pred_test)
             self.accuracy_list.append(model_acc)
             print(
-                f"Regularization Parameter : {_c} Training Accuracy : {model_acc} Test Accuracy : {test_acc}")
+                f"Regularization : {_c} Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
 
     def plot(self):
         plt.figure(1)
