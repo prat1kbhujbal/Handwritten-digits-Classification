@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 from sklearn.svm import LinearSVC, SVC
-from sklearn.metrics import accuracy_score,confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 
 class SVM:
@@ -10,7 +10,8 @@ class SVM:
         self.train_y = train_y
         self.test_x = test_x
         self.test_y = test_y
-        self.regularization = [0.5, 0.75, 1]
+        self.regularization = [0.25, 0.5, 0.75, 1, 1.25]
+        self.accuracy_list = []
 
     def svm(self):
         if self.kernel == "Linear":
@@ -32,8 +33,9 @@ class SVM:
         pred_test = model.predict(self.test_x)
         model_acc = accuracy_score(self.train_y, pred_train)
         test_acc = accuracy_score(self.test_y, pred_test)
-        print("Model accuracy: ", model_acc)
-        print("Test accuracy: ", test_acc)
+        self.accuracy_list.append(model_acc)
+        print(
+            f"Regularization Parameter : {_c} Training Accuracy : {model_acc} Test Accuracy : {test_acc}")
 
     def kernel_svm(self, _c):
         if self.kernel == "Polynomial":
@@ -43,8 +45,10 @@ class SVM:
             pred_test = model.predict(self.test_x)
             model_acc = accuracy_score(self.train_y, pred_train)
             test_acc = accuracy_score(self.test_y, pred_test)
-            print("Train accuracy: ", model_acc)
-            print("Test accuracy: ", test_acc)
+            self.accuracy_list.append(model_acc)
+            print(
+                f"Regularization Parameter : {_c} Training Accuracy : {model_acc} Test Accuracy : {test_acc}")
+
         else:
             model = SVC(kernel='rbf', gamma=0.5, C=_c)
             model.fit(self.train_x, self.train_y)
@@ -52,6 +56,14 @@ class SVM:
             pred_test = model.predict(self.test_x)
             model_acc = accuracy_score(self.train_y, pred_train)
             test_acc = accuracy_score(self.test_y, pred_test)
-            print("Train accuracy: ", model_acc)
-            print("Test accuracy: ", test_acc)
-            
+            self.accuracy_list.append(model_acc)
+            print(
+                f"Regularization Parameter : {_c} Training Accuracy : {model_acc} Test Accuracy : {test_acc}")
+
+    def plot(self):
+        plt.figure(1)
+        plt.plot(self.regularization, self.accuracy_list)
+        plt.title("Accuracy wrt c")
+        plt.xlabel("Regularization")
+        plt.ylabel("Accuracy")
+        plt.show()

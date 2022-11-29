@@ -14,8 +14,8 @@ def main():
     (train_x, train_y), (test_x, test_y) = tf.keras.datasets.mnist.load_data()
     train_x = train_x / 255.0
     test_x = test_x / 255.0
-    method = ""
-    dim_reduction = "LDA"
+    method = "SVM"
+    dim_reduction = "PCA"
     kernel = "RBF"
 
     if method == "Lenet":
@@ -64,6 +64,7 @@ def main():
             test_x = lda.transform(test_x)
         svm = SVM(train_x, train_y, test_x, test_y, kernel)
         svm.svm()
+        svm.plot()
     else:
         train_x = train_x.reshape(
             (train_x.shape[0],
@@ -86,7 +87,7 @@ def main():
             lda = LinearDiscriminantAnalysis(n_components=9)
             train_x = lda.fit_transform(train_x, train_y)
             test_x = lda.transform(test_x)
-        LR = LogisticRegression(10, epochs=10)
+        LR = LogisticRegression(10, l_r=0.9, epochs=10)
         LR.fit(train_x, train_y)
         training_acc = np.sum(train_y == LR.predict(train_x)) / len(train_y)
         print(f"Training Accuracy : {training_acc:.2f}")

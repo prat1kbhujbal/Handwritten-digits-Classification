@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 
 
 class LogisticRegression():
-    def __init__(self, num_classes, l_r=0.9, epochs=25) -> None:
+    def __init__(self, num_classes, l_r, epochs) -> None:
         self.l_r = l_r
         self.iter = epochs
         self.num_classes = num_classes
-        self.loss_arr = []
+        self.loss_l = []
         self.accuracy = []
 
     def update_grad(self, X, N, sm, y_1):
@@ -31,7 +31,7 @@ class LogisticRegression():
             self.accuracy.append(accuracy)
             if i % 25 == 0:
                 print(
-                    f"Epoch : {i} Loss : {self.loss_arr[i-1]:.4f} Accuracy : {accuracy:.4f}")
+                    f"Epoch : {i} Loss : {self.loss_l[i-1]:.4f} Accuracy : {accuracy:.4f}")
         return self
 
     def softmax(self, z):
@@ -42,7 +42,7 @@ class LogisticRegression():
 
     def cross_entropy_loss(self, y, sm):
         loss = -np.mean(np.log(sm[np.arange(len(y)), y]))
-        self.loss_arr.append(loss)
+        self.loss_l.append(loss)
 
     def predict(self, X):
         z = X @ self.w + self.bias
@@ -51,7 +51,7 @@ class LogisticRegression():
 
     def plot(self):
         plt.figure(1)
-        plt.plot(np.arange(1, self.iter + 1), self.loss_arr)
+        plt.plot(np.arange(1, self.iter + 1), self.loss_l)
         plt.title("Training Loss")
         plt.xlabel("Epoch")
         plt.ylabel("Loss")
