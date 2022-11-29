@@ -1,8 +1,8 @@
 import numpy as np
+import seaborn as sn
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
-from itertools import product
 
 
 class LogisticRegression():
@@ -64,12 +64,11 @@ class LogisticRegression():
         plt.xlabel('Epoch')
 
         plt.figure(3)
-        cm = confusion_matrix(test_y, test_pred)
-        plt.imshow(cm, cmap=plt.cm.get_cmap('Paired'))
-        indexes = np.arange(self.num_classes)
-        for i, j in product(indexes, indexes):
-            plt.text(
-                j, i, cm[i, j],
-                ha='center', va='center')
-        plt.colorbar()
+        sn.heatmap(
+            confusion_matrix(
+                test_y,
+                test_pred),
+            annot=True,
+            fmt='d',
+            cmap="Blues")
         plt.show()
