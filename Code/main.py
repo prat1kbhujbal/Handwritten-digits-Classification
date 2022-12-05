@@ -13,13 +13,13 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        '--Method', default='SVM',
+        '--Method', default='Lenet',
         help='classifiers')
     parse.add_argument(
-        '--DimRed', default='LDA',
+        '--DimRed', default='PCA',
         help='Dimensionality Reduction for SVM and Logistic Regression')
     parse.add_argument(
-        '--Kernel', default='Polynomial',
+        '--Kernel', default='Linear',
         help='kernel for Kernel SVM')
     args = parse.parse_args()
     method = args.Method
@@ -38,11 +38,10 @@ def main():
         'LDA',
         'Linear',
         'Polynomial',
-        'RBF',
-        None]
+        'RBF']
     if method and kernel and dim_reduction not in valid_list:
-        sys.exit("Provide valid argument!!!")
-    print("Performing: ", method)
+        sys.exit("!!!! Please provide valid argument !!!")
+    print("Method: ", method)
     if method == "Lenet":
         X_train = tf.expand_dims(X_train, 3)
         X_test = tf.expand_dims(X_test, 3)
