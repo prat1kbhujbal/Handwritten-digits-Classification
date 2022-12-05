@@ -3,7 +3,7 @@
 Hand written digit recognition using Logistic Regression, SVM, Deep Neural Network (Lenet-5 architecture) for MINST dataset.
 
 ## To run the code
-### Deep Neural Net
+### Deep Learning
 ```bash
 python3 main.py --Method Lenet
 ```
