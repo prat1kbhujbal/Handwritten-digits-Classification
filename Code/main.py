@@ -29,6 +29,7 @@ def main():
     X_train = X_train / 255.0
     X_test = X_test / 255.0
 
+    print("Performing: ", method)
     if method == "Lenet":
         X_train = tf.expand_dims(X_train, 3)
         X_test = tf.expand_dims(X_test, 3)
@@ -61,6 +62,7 @@ def main():
              X_test.shape[1] *
              X_test.shape[2]))
         scaler = StandardScaler()
+        print("Dimensionality reduction: ", dim_reduction)
         if dim_reduction == "PCA":
             X_train = scaler.fit_transform(X_train)
             X_test = scaler.transform(X_test)
@@ -86,6 +88,7 @@ def main():
              X_test.shape[1] *
              X_test.shape[2]))
         scaler = StandardScaler()
+        print("Dimensionality reduction: ",dim_reduction)   
         if dim_reduction == "PCA":
             X_train = scaler.fit_transform(X_train)
             X_test = scaler.transform(X_test)

@@ -14,12 +14,11 @@ class SVM:
         self.accuracy_list = []
 
     def svm(self):
+        print("Kernel ", self.kernel)
         if self.kernel == "Linear":
-            print("Kernel ", self.kernel)
             for _c in self.regularization:
                 self.linear_svm(_c)
         elif self.kernel == "Polynomial" or self.kernel == "RBF":
-            print("Kernel ", self.kernel)
             for _c in self.regularization:
                 self.kernel_svm(_c)
 
