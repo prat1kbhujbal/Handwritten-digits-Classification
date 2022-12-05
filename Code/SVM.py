@@ -53,7 +53,7 @@ class SVM:
             _c (Float): Regularization parameter
          """
         if self.kernel == "Polynomial":
-            model = SVC(kernel='poly', degree=3, gamma='auto', coef0=1, C=_c)
+            model = SVC(kernel='poly', degree=3, gamma='0.05', coef0=1, C=_c)
             model.fit(self.X_train, self.y_train)
             pred_train = model.predict(self.X_train)
             pred_test = model.predict(self.X_test)
