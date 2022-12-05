@@ -64,7 +64,7 @@ class SVM:
                 f"Regularization : {_c} Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
 
         else:
-            model = SVC(kernel='rbf', gamma=0.05, C=_c)
+            model = SVC(kernel='rbf', gamma="auto", C=_c)
             model.fit(self.X_train, self.y_train)
             pred_train = model.predict(self.X_train)
             pred_test = model.predict(self.X_test)
