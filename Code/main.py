@@ -13,7 +13,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        '--Method', default='Lenet',
+        '--Method', default='LG',
         help='classifiers')
     parse.add_argument(
         '--DimRed', default='PCA',
@@ -30,17 +30,6 @@ def main():
     X_train = X_train / 255.0
     X_test = X_test / 255.0
 
-    valid_list = [
-        'Lenet',
-        'SVM',
-        'LG',
-        'PCA',
-        'LDA',
-        'Linear',
-        'Polynomial',
-        'RBF']
-    if method and kernel and dim_reduction not in valid_list:
-        sys.exit("!!!! Please provide valid argument !!!")
     print("Method: ", method)
     if method == "Lenet":
         X_train = tf.expand_dims(X_train, 3)
@@ -90,7 +79,7 @@ def main():
         svm = SVM(X_train, train_y, X_test, y_test, kernel)
         svm.svm()
         svm.plot()
-    else:
+    elif method == "LG":
         X_train = X_train.reshape(
             (X_train.shape[0],
              X_train.shape[1] *
@@ -122,6 +111,8 @@ def main():
         print(f"Testing Accuracy : {test_acc:.2f}")
         test_acc = np.sum(y_test == test_pred) / len(y_test)
         LR.plot(y_test, test_pred)
+    else:
+        print("!!!Please provode valid classifier!!!")
 
 
 if __name__ == '__main__':

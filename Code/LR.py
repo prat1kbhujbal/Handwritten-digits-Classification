@@ -61,18 +61,31 @@ class LogisticRegression():
             test_y : test labels
             test_pred: test predictions
         """
-        plt.figure(1)
-        plt.plot(np.arange(1, self.iter + 1), self.loss_l)
-        plt.title("Training Loss")
-        plt.xlabel("Epoch")
-        plt.ylabel("Loss")
+        # plt.figure(1)
+        # plt.plot(np.arange(1, self.iter + 1), self.loss_l)
+        # plt.title("Training Loss")
+        # plt.xlabel("Epoch")
+        # plt.ylabel("Loss")
 
-        plt.figure(2)
-        plt.plot(np.arange(1, len(self.accuracy) + 1), self.accuracy)
-        plt.ylabel('Accuracy')
-        plt.xlabel('Epoch')
+        # plt.figure(2)
+        # plt.plot(np.arange(1, len(self.accuracy) + 1), self.accuracy)
+        # plt.ylabel('Accuracy')
+        # plt.xlabel('Epoch')
 
-        plt.figure(3)
+        # plt.figure(3)
+        # sn.heatmap(
+        #     confusion_matrix(
+        #         test_y,
+        #         test_pred),
+        #     annot=True,
+        #     fmt='d',
+        #     cmap="Blues")
+        # plt.title("Confusion Matrix")
+        # plt.xlabel('Predicted')
+        # plt.ylabel('Truth')
+        # plt.show()
+
+        plt.figure(1, figsize=(10, 7))
         sn.heatmap(
             confusion_matrix(
                 test_y,
@@ -83,4 +96,16 @@ class LogisticRegression():
         plt.title("Confusion Matrix")
         plt.xlabel('Predicted')
         plt.ylabel('Truth')
+        plt.figure(2, figsize=(12, 9))
+        plt.subplot(211)
+        plt.plot(np.arange(1, len(self.accuracy) + 1), self.accuracy)
+        plt.title('Accuracy')
+        plt.ylabel('accuracy')
+        plt.xlabel('Epoch')
+
+        plt.subplot(212)
+        plt.plot(np.arange(1, self.iter + 1), self.loss_l)
+        plt.title('Loss')
+        plt.ylabel('loss')
+        plt.xlabel('Epoch')
         plt.show()
