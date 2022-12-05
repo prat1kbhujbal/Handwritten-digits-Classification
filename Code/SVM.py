@@ -16,7 +16,7 @@ class SVM:
         self.accuracy_list = []
 
     def svm(self):
-        print("Kernel ", self.kernel)
+        print("Kernel: ", self.kernel)
         if self.kernel == "Linear":
             for _c in self.regularization:
                 self.linear_svm(_c)
@@ -60,7 +60,7 @@ class SVM:
             test_acc = accuracy_score(self.y_test, pred_test)
             self.accuracy_list.append(model_acc)
             print(
-                f"Regularization : {_c}Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
+                f"Regularization : {_c} Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
 
         else:
             model = SVC(kernel='rbf', gamma=0.5, C=_c)

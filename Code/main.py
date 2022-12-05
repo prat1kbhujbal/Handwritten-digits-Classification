@@ -12,7 +12,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        '--Method', default='Lenet',
+        '--Method', default='',
         help='classifiers')
     parse.add_argument(
         '--DimRed', default='PCA',
@@ -101,7 +101,7 @@ def main():
             lda = LinearDiscriminantAnalysis(n_components=9)
             X_train = lda.fit_transform(X_train, train_y)
             X_test = lda.transform(X_test)
-        LR = LogisticRegression(10, l_r=0.9, epochs=300)
+        LR = LogisticRegression(10, l_r=0.9, epochs=100)
         LR.fit(X_train, train_y)
         training_acc = np.sum(train_y == LR.predict(X_train)) / len(train_y)
         print(f"Training Accuracy : {training_acc:.2f}")

@@ -33,7 +33,7 @@ class LogisticRegression():
             self.cross_entropy_loss(y, sf_max)
             accuracy = np.sum(y == self.predict(X)) / len(y)
             self.accuracy.append(accuracy)
-            if i % 100 == 0:
+            if i % 25 == 0:
                 print(
                     f"Epoch : {i} Loss : {self.loss_l[i-1]:.4f} Accuracy : {accuracy:.4f}")
         return self
