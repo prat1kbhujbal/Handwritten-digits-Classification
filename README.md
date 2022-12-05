@@ -28,6 +28,11 @@ python3 main.py --Method SVM --DimRed LDA --Kernel Polynomial
     - DimRed - kernel for Kernel SVM. Option : 'Polynomial/RBF' *Default :- 'Linear'* 
 
 ## Results
+### LeNet-5 
+Accuracy | Confusion Matrix
+:-:|:-:
+![env](./Results/lenet.png) | ![env](./Results/cm_lenet.png) 
+
 ### Logistic Regression
 
 PCA | LDA 
@@ -35,11 +40,6 @@ PCA | LDA
 ![env](./Results/lr_pca_acc.png) | ![env](./Results/lr_lda_acc.png)
 ![env](./Results/lr_pca_loss.png) | ![env](./Results/lr_lda_loss.png) 
 ![env](./Results/lr_pca_cm.png) | ![env](./Results/lr_lda_cm.png) 
-
-### LeNet-5 
-Accuracy | Confusion Matrix
-:-:|:-:
-![env](./Results/lenet.png) | ![env](./Results/cm_lenet.png) 
 
 ### SVM
 
