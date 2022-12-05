@@ -32,7 +32,8 @@ python3 main.py --Method SVM --DimRed LDA --Kernel Polynomial
 
 PCA | LDA 
 :-:|:-:|
-![env](./Results/lr_pca_acc.png) | ![env](./Results/lr_lda_acc.png) 
+![env](./Results/lr_pca_acc.png) | ![env](./Results/lr_lda_acc.png)
+![env](./Results/lr_pca_loss.png) | ![env](./Results/lr_lda_loss.png) 
 ![env](./Results/lr_pca_cm.png) | ![env](./Results/lr_lda_cm.png) 
 
 ### LeNet-5 
