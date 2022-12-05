@@ -1,3 +1,4 @@
+import tqdm
 import matplotlib.pyplot as plt
 from sklearn.svm import LinearSVC, SVC
 from sklearn.metrics import accuracy_score
@@ -12,16 +13,16 @@ class SVM:
         self.y_train = y_train
         self.X_test = X_test
         self.y_test = y_test
-        self.regularization = [0.50, 0.75, 1.00]
+        self.regularization = [0.25,5,0.75,1.5]
         self.accuracy_list = []
 
     def svm(self):
         print("Kernel: ", self.kernel)
         if self.kernel == "Linear":
-            for _c in self.regularization:
+            for _c in tqdm.tqdm(self.regularization):
                 self.linear_svm(_c)
         elif self.kernel == "Polynomial" or self.kernel == "RBF":
-            for _c in self.regularization:
+            for _c in tqdm.tqdm(self.regularization):
                 self.kernel_svm(_c)
 
     def linear_svm(self, _c):
@@ -63,7 +64,7 @@ class SVM:
                 f"Regularization : {_c} Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
 
         else:
-            model = SVC(kernel='rbf', gamma=0.5, C=_c)
+            model = SVC(kernel='rbf', gamma=0.05, C=_c)
             model.fit(self.X_train, self.y_train)
             pred_train = model.predict(self.X_train)
             pred_test = model.predict(self.X_test)

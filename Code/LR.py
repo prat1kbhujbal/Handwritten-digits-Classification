@@ -1,3 +1,4 @@
+import tqdm
 import numpy as np
 import seaborn as sn
 import tensorflow as tf
@@ -25,7 +26,7 @@ class LogisticRegression():
         N, n = X.shape
         self.w = np.random.random((n, self.num_classes))
         self.bias = np.random.random(self.num_classes)
-        for i in range(1, self.iter + 1):
+        for i in tqdm.tqdm(range(1, self.iter + 1)):
             z = X @ self.w + self.bias
             sf_max = self.softmax(z)
             y_1 = tf.keras.utils.to_categorical(y)
