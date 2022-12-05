@@ -25,88 +25,88 @@ def main():
     dim_reduction = args.DimRed
     kernel = args.Kernel
 
-    (train_x, train_y), (test_x, test_y) = tf.keras.datasets.mnist.load_data()
-    train_x = train_x / 255.0
-    test_x = test_x / 255.0
+    (X_train, train_y), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
+    X_train = X_train / 255.0
+    X_test = X_test / 255.0
 
     if method == "Lenet":
-        train_x = tf.expand_dims(train_x, 3)
-        test_x = tf.expand_dims(test_x, 3)
-        val_x = train_x[:5000]
+        X_train = tf.expand_dims(X_train, 3)
+        X_test = tf.expand_dims(X_test, 3)
+        val_x = X_train[:5000]
         val_y = train_y[:5000]
         model = LeNet()
         optimizer(model)
         history = model.fit(
-            train_x,
+            X_train,
             train_y,
             epochs=10,
             validation_data=(
                 val_x,
                 val_y))
         print("Evaluation on test data")
-        model.evaluate(test_x, test_y)
-        y_predicted = model.predict(test_x, verbose=0)
+        model.evaluate(X_test, y_test)
+        y_predicted = model.predict(X_test, verbose=0)
         y_predicted_labels = [np.argmax(i) for i in y_predicted]
         c_m = tf.math.confusion_matrix(
-            labels=test_y, predictions=y_predicted_labels)
+            labels=y_test, predictions=y_predicted_labels)
         plot(c_m, history)
 
     elif method == "SVM":
-        train_x = train_x.reshape(
-            (train_x.shape[0],
-             train_x.shape[1] *
-             train_x.shape[2]))
-        test_x = test_x.reshape(
-            (test_x.shape[0],
-             test_x.shape[1] *
-             test_x.shape[2]))
+        X_train = X_train.reshape(
+            (X_train.shape[0],
+             X_train.shape[1] *
+             X_train.shape[2]))
+        X_test = X_test.reshape(
+            (X_test.shape[0],
+             X_test.shape[1] *
+             X_test.shape[2]))
         scaler = StandardScaler()
         if dim_reduction == "PCA":
-            train_x = scaler.fit_transform(train_x)
-            test_x = scaler.transform(test_x)
+            X_train = scaler.fit_transform(X_train)
+            X_test = scaler.transform(X_test)
             pca = PCA(n_components=90)
-            train_x = pca.fit_transform(train_x)
-            test_x = pca.transform(test_x)
+            X_train = pca.fit_transform(X_train)
+            X_test = pca.transform(X_test)
         elif dim_reduction == "LDA":
-            train_x = scaler.fit_transform(train_x)
-            test_x = scaler.transform(test_x)
+            X_train = scaler.fit_transform(X_train)
+            X_test = scaler.transform(X_test)
             lda = LinearDiscriminantAnalysis(n_components=9)
-            train_x = lda.fit_transform(train_x, train_y)
-            test_x = lda.transform(test_x)
-        svm = SVM(train_x, train_y, test_x, test_y, kernel)
+            X_train = lda.fit_transform(X_train, train_y)
+            X_test = lda.transform(X_test)
+        svm = SVM(X_train, train_y, X_test, y_test, kernel)
         svm.svm()
         svm.plot()
     else:
-        train_x = train_x.reshape(
-            (train_x.shape[0],
-             train_x.shape[1] *
-             train_x.shape[2]))
-        test_x = test_x.reshape(
-            (test_x.shape[0],
-             test_x.shape[1] *
-             test_x.shape[2]))
+        X_train = X_train.reshape(
+            (X_train.shape[0],
+             X_train.shape[1] *
+             X_train.shape[2]))
+        X_test = X_test.reshape(
+            (X_test.shape[0],
+             X_test.shape[1] *
+             X_test.shape[2]))
         scaler = StandardScaler()
         if dim_reduction == "PCA":
-            train_x = scaler.fit_transform(train_x)
-            test_x = scaler.transform(test_x)
+            X_train = scaler.fit_transform(X_train)
+            X_test = scaler.transform(X_test)
             pca = PCA(n_components=90)
-            train_x = pca.fit_transform(train_x)
-            test_x = pca.transform(test_x)
+            X_train = pca.fit_transform(X_train)
+            X_test = pca.transform(X_test)
         elif dim_reduction == "LDA":
-            train_x = scaler.fit_transform(train_x)
-            test_x = scaler.transform(test_x)
+            X_train = scaler.fit_transform(X_train)
+            X_test = scaler.transform(X_test)
             lda = LinearDiscriminantAnalysis(n_components=9)
-            train_x = lda.fit_transform(train_x, train_y)
-            test_x = lda.transform(test_x)
+            X_train = lda.fit_transform(X_train, train_y)
+            X_test = lda.transform(X_test)
         LR = LogisticRegression(10, l_r=0.9, epochs=50)
-        LR.fit(train_x, train_y)
-        training_acc = np.sum(train_y == LR.predict(train_x)) / len(train_y)
+        LR.fit(X_train, train_y)
+        training_acc = np.sum(train_y == LR.predict(X_train)) / len(train_y)
         print(f"Training Accuracy : {training_acc:.2f}")
-        test_pred = LR.predict(test_x)
-        test_acc = np.sum(test_y == test_pred) / len(test_y)
+        test_pred = LR.predict(X_test)
+        test_acc = np.sum(y_test == test_pred) / len(y_test)
         print(f"Testing Accuracy : {test_acc:.2f}")
-        test_acc = np.sum(test_y == test_pred) / len(test_y)
-        LR.plot(test_y, test_pred)
+        test_acc = np.sum(y_test == test_pred) / len(y_test)
+        LR.plot(y_test, test_pred)
 
 
 if __name__ == '__main__':
