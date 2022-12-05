@@ -18,7 +18,7 @@ def main():
         '--DimRed', default='PCA',
         help='Dimensionality Reduction for SVM and Logistic Regression')
     parse.add_argument(
-        '--Kernel', default='RBF',
+        '--Kernel', default='Polynimial',
         help='kernel for Kernel SVM')
     args = parse.parse_args()
     method = args.Method

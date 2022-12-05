@@ -13,7 +13,7 @@ class SVM:
         self.y_train = y_train
         self.X_test = X_test
         self.y_test = y_test
-        self.regularization = [0.25,5,0.75,1.5]
+        self.regularization = [0.25, 5, 0.75, 1.0]
         self.accuracy_list = []
 
     def svm(self):
