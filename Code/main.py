@@ -101,7 +101,7 @@ def main():
             lda = LinearDiscriminantAnalysis(n_components=9)
             X_train = lda.fit_transform(X_train, train_y)
             X_test = lda.transform(X_test)
-        LR = LogisticRegression(10, l_r=0.9, epochs=50)
+        LR = LogisticRegression(10, l_r=0.9, epochs=300)
         LR.fit(X_train, train_y)
         training_acc = np.sum(train_y == LR.predict(X_train)) / len(train_y)
         print(f"Training Accuracy : {training_acc:.2f}")
