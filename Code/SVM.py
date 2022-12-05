@@ -13,7 +13,7 @@ class SVM:
         self.y_train = y_train
         self.X_test = X_test
         self.y_test = y_test
-        self.regularization = [0.25, 5, 0.75, 1.0]
+        self.regularization = [0.25, 0.5, 0.75, 1.0]
         self.accuracy_list = []
 
     def svm(self):
@@ -53,7 +53,7 @@ class SVM:
             _c (Float): Regularization parameter
          """
         if self.kernel == "Polynomial":
-            model = SVC(kernel='poly', degree=3, gamma='0.05', coef0=1, C=_c)
+            model = SVC(kernel='poly', degree=2, gamma='auto', coef0=1, C=_c)
             model.fit(self.X_train, self.y_train)
             pred_train = model.predict(self.X_train)
             pred_test = model.predict(self.X_test)

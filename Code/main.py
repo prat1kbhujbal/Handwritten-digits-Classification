@@ -1,3 +1,4 @@
+import sys
 import argparse
 import numpy as np
 import tensorflow as tf
@@ -15,10 +16,10 @@ def main():
         '--Method', default='SVM',
         help='classifiers')
     parse.add_argument(
-        '--DimRed', default='PCA',
+        '--DimRed', default='LDA',
         help='Dimensionality Reduction for SVM and Logistic Regression')
     parse.add_argument(
-        '--Kernel', default='Polynimial',
+        '--Kernel', default='Polynomial',
         help='kernel for Kernel SVM')
     args = parse.parse_args()
     method = args.Method
@@ -29,6 +30,18 @@ def main():
     X_train = X_train / 255.0
     X_test = X_test / 255.0
 
+    valid_list = [
+        'Lenet',
+        'SVM',
+        'LG',
+        'PCA',
+        'LDA',
+        'Linear',
+        'Polynomial',
+        'RBF',
+        None]
+    if method and kernel and dim_reduction not in valid_list:
+        sys.exit("Provide valid argument!!!")
     print("Performing: ", method)
     if method == "Lenet":
         X_train = tf.expand_dims(X_train, 3)
@@ -88,7 +101,7 @@ def main():
              X_test.shape[1] *
              X_test.shape[2]))
         scaler = StandardScaler()
-        print("Dimensionality reduction: ",dim_reduction)   
+        print("Dimensionality reduction: ", dim_reduction)
         if dim_reduction == "PCA":
             X_train = scaler.fit_transform(X_train)
             X_test = scaler.transform(X_test)
