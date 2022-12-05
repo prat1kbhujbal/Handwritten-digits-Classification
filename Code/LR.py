@@ -6,6 +6,8 @@ from sklearn.metrics import confusion_matrix
 
 
 class LogisticRegression():
+    """Class for Logistic Regression."""
+
     def __init__(self, num_classes, l_r, epochs) -> None:
         self.l_r = l_r
         self.iter = epochs

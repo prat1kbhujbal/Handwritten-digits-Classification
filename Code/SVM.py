@@ -4,6 +4,8 @@ from sklearn.metrics import accuracy_score
 
 
 class SVM:
+    """Class for SVM"""
+
     def __init__(self, X_train, y_train, X_test, y_test, kernel) -> None:
         self.kernel = kernel
         self.X_train = X_train
@@ -23,6 +25,11 @@ class SVM:
                 self.kernel_svm(_c)
 
     def linear_svm(self, _c):
+        """Function to perform Linear SVM
+
+        Args:
+            _c (Float): Regularization parameter
+         """
         model = LinearSVC(
             C=_c,
             loss='hinge',
@@ -39,6 +46,11 @@ class SVM:
             f"Regularization : {_c} Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
 
     def kernel_svm(self, _c):
+        """Function to perform kernel SVM
+
+        Args:
+            _c (Float): Regularization parameter
+         """
         if self.kernel == "Polynomial":
             model = SVC(kernel='poly', degree=3, gamma='auto', coef0=1, C=_c)
             model.fit(self.X_train, self.y_train)
@@ -62,6 +74,8 @@ class SVM:
                 f"Regularization : {_c} Test Accuracy : {test_acc:.4f} Training Accuracy : {model_acc:.4f}")
 
     def plot(self):
+        """Function to plot the results
+        """
         plt.figure(1)
         plt.plot(self.regularization, self.accuracy_list)
         plt.title("Accuracy wrt c")
