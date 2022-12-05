@@ -1,3 +1,4 @@
+"""Lenet architecture"""
 import seaborn as sn
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -46,7 +47,7 @@ def optimizer(model):
         model : model
 
     Returns:
-        _type_: Compiled model
+        Compiled model
     """
     return model.compile(
         optimizer='adam',
@@ -55,6 +56,12 @@ def optimizer(model):
 
 
 def plot(c_m, history):
+    """Function to plot the results
+
+    Args:
+        c_m (dtypr): Representation of confusion matrix
+        history : history object
+    """
     plt.figure(1, figsize=(10, 7))
     sn.heatmap(c_m, annot=True, fmt='d', cmap="Blues")
     plt.title("Confusion Matrix")
@@ -67,7 +74,7 @@ def plot(c_m, history):
     plt.title('Accuracy')
     plt.ylabel('accuracy')
     plt.xlabel('Epoch')
-    plt.legend(['train', 'test'])
+    plt.legend(['train', 'validation'])
 
     plt.subplot(212)
     plt.plot(history.history['loss'])
@@ -75,5 +82,5 @@ def plot(c_m, history):
     plt.title('Loss')
     plt.ylabel('loss')
     plt.xlabel('Epoch')
-    plt.legend(['train', 'test'])
+    plt.legend(['train', 'validation'])
     plt.show()

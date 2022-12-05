@@ -52,6 +52,12 @@ class LogisticRegression():
         return np.argmax(out, axis=1)
 
     def plot(self, test_y, test_pred):
+        """Function to plot the results
+
+        Args:
+            test_y : test labels
+            test_pred: test predictions
+        """
         plt.figure(1)
         plt.plot(np.arange(1, self.iter + 1), self.loss_l)
         plt.title("Training Loss")

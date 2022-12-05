@@ -12,7 +12,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        '--Method', default='',
+        '--Method', default='Lenet',
         help='classifiers')
     parse.add_argument(
         '--DimRed', default='PCA',
