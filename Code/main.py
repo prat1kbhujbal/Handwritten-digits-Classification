@@ -12,13 +12,13 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        '--Method', default='',
+        '--Method', default='SVM',
         help='classifiers')
     parse.add_argument(
         '--DimRed', default='PCA',
         help='Dimensionality Reduction for SVM and Logistic Regression')
     parse.add_argument(
-        '--Kernel', default='Polynomial',
+        '--Kernel', default='RBF',
         help='kernel for Kernel SVM')
     args = parse.parse_args()
     method = args.Method
