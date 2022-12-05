@@ -35,11 +35,10 @@ Accuracy | Confusion Matrix
 
 ### Logistic Regression
 
-PCA | LDA 
-:-:|:-:|
-![env](./Results/lr_pca_acc.png) | ![env](./Results/lr_lda_acc.png)
-![env](./Results/lr_pca_loss.png) | ![env](./Results/lr_lda_loss.png) 
-![env](./Results/lr_pca_cm.png) | ![env](./Results/lr_lda_cm.png) 
+Dim Red. | Accuracy | Confusion
+:-:|:-:|:-:
+| PCA |![env](./Results/lr_acc_loss_pca.png) | ![env](./Results/lr_pca_cm.png) 
+| LDA |![env](./Results/lr_acc_loss_lda.png) | ![env](./Results/lr_lda_cm.png) 
 
 ### SVM
 

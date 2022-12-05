@@ -13,13 +13,13 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        '--Method', default='LG',
+        '--Method', default='LR',
         help='classifiers')
     parse.add_argument(
-        '--DimRed', default='PCA',
+        '--DimRed', default='LDA',
         help='Dimensionality Reduction for SVM and Logistic Regression')
     parse.add_argument(
-        '--Kernel', default='Linear',
+        '--Kernel', default='RBF',
         help='kernel for Kernel SVM')
     args = parse.parse_args()
     method = args.Method
@@ -79,7 +79,7 @@ def main():
         svm = SVM(X_train, train_y, X_test, y_test, kernel)
         svm.svm()
         svm.plot()
-    elif method == "LG":
+    elif method == "LR":
         X_train = X_train.reshape(
             (X_train.shape[0],
              X_train.shape[1] *
@@ -102,7 +102,7 @@ def main():
             lda = LinearDiscriminantAnalysis(n_components=9)
             X_train = lda.fit_transform(X_train, train_y)
             X_test = lda.transform(X_test)
-        LR = LogisticRegression(10, l_r=0.9, epochs=100)
+        LR = LogisticRegression(10, l_r=0.9, epochs=50)
         LR.fit(X_train, train_y)
         training_acc = np.sum(train_y == LR.predict(X_train)) / len(train_y)
         print(f"Training Accuracy : {training_acc:.2f}")
@@ -112,7 +112,7 @@ def main():
         test_acc = np.sum(y_test == test_pred) / len(y_test)
         LR.plot(y_test, test_pred)
     else:
-        print("!!!Please provode valid classifier!!!")
+        sys.exit("!!!Please provode valid classifier!!!")
 
 
 if __name__ == '__main__':

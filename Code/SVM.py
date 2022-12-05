@@ -1,3 +1,4 @@
+import sys
 import tqdm
 import matplotlib.pyplot as plt
 from sklearn.svm import LinearSVC, SVC
@@ -8,13 +9,15 @@ class SVM:
     """Class for SVM"""
 
     def __init__(self, X_train, y_train, X_test, y_test, kernel) -> None:
-        self.kernel = kernel
         self.X_train = X_train
         self.y_train = y_train
         self.X_test = X_test
         self.y_test = y_test
         self.regularization = [0.25, 0.5, 0.75, 1.0]
         self.accuracy_list = []
+        if kernel != "Linear" and kernel != "Polynomial" and kernel != "RBF":
+           sys.exit("!!!Please provide valid kernal!!!")
+        self.kernel = kernel
 
     def svm(self):
         print("Kernel: ", self.kernel)
