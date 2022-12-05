@@ -29,3 +29,9 @@ python3 main.py --Method SVM --DimRed LDA --Kernel Polynomial
 
 ## Results
 ### LeNet-5 
+<p >
+  <img src="./Results/lenet.png" />
+</p>
+<p >
+  <img src="./Results/cm_lenet.png" />
+</p>
