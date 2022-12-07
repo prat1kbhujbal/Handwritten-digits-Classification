@@ -76,8 +76,8 @@ class LeNet(tf.keras.Model):
         plt.legend(['train', 'validation'])
         plt.show()
 
-    def optimizer(self):
-        """Specifying a loss function, an optimizer, and metrics to monitor.
+    def optimizer_f(self):
+        """Specify a loss function, an optimizer, and metrics to monitor.
 
         Args:
             model : model

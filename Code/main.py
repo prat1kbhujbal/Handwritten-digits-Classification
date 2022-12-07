@@ -37,7 +37,7 @@ def main():
         val_x = X_train[:5000]
         val_y = y_train[:5000]
         model = LeNet()
-        model.optimizer()
+        model.optimizer_f()
         history = model.fit(
             X_train,
             y_train,
