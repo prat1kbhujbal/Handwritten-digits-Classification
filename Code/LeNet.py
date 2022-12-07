@@ -39,6 +39,36 @@ class LeNet(tf.keras.Model):
         out = self.dense3(out)
         return out
 
+    def plot(self,y_test, predictions,history):
+        """Function to plot the results
+
+        Args:
+            c_m (dtypr): Representation of confusion matrix
+            history : history object
+        """
+
+        plt.figure(1, figsize=(10, 7))
+        sn.heatmap(tf.math.confusion_matrix(labels=y_test, predictions=predictions), annot=True, fmt='d', cmap="Blues")
+        plt.title("Confusion Matrix")
+        plt.xlabel('Predicted')
+        plt.ylabel('Truth')
+        plt.figure(2, figsize=(12, 9))
+        plt.subplot(211)
+        plt.plot(history.history['accuracy'])
+        plt.plot(history.history['val_accuracy'])
+        plt.title('Accuracy')
+        plt.ylabel('accuracy')
+        plt.xlabel('Epoch')
+        plt.legend(['train', 'validation'])
+
+        plt.subplot(212)
+        plt.plot(history.history['loss'])
+        plt.plot(history.history['val_loss'])
+        plt.title('Loss')
+        plt.ylabel('loss')
+        plt.xlabel('Epoch')
+        plt.legend(['train', 'validation'])
+        plt.show()
 
 def optimizer(model):
     """Specifying a loss function, an optimizer, and metrics to monitor.
@@ -55,32 +85,4 @@ def optimizer(model):
         metrics=['accuracy'])
 
 
-def plot(c_m, history):
-    """Function to plot the results
-
-    Args:
-        c_m (dtypr): Representation of confusion matrix
-        history : history object
-    """
-    plt.figure(1, figsize=(10, 7))
-    sn.heatmap(c_m, annot=True, fmt='d', cmap="Blues")
-    plt.title("Confusion Matrix")
-    plt.xlabel('Predicted')
-    plt.ylabel('Truth')
-    plt.figure(2, figsize=(12, 9))
-    plt.subplot(211)
-    plt.plot(history.history['accuracy'])
-    plt.plot(history.history['val_accuracy'])
-    plt.title('Accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('Epoch')
-    plt.legend(['train', 'validation'])
-
-    plt.subplot(212)
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('Loss')
-    plt.ylabel('loss')
-    plt.xlabel('Epoch')
-    plt.legend(['train', 'validation'])
-    plt.show()
+    
