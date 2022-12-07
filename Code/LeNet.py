@@ -39,7 +39,7 @@ class LeNet(tf.keras.Model):
         out = self.dense3(out)
         return out
 
-    def plot(self,y_test, predictions,history):
+    def plot(self, y_test, predictions, history):
         """Function to plot the results
 
         Args:
@@ -48,7 +48,13 @@ class LeNet(tf.keras.Model):
         """
 
         plt.figure(1, figsize=(10, 7))
-        sn.heatmap(tf.math.confusion_matrix(labels=y_test, predictions=predictions), annot=True, fmt='d', cmap="Blues")
+        sn.heatmap(
+            tf.math.confusion_matrix(
+                labels=y_test,
+                predictions=predictions),
+            annot=True,
+            fmt='d',
+            cmap="Blues")
         plt.title("Confusion Matrix")
         plt.xlabel('Predicted')
         plt.ylabel('Truth')
@@ -70,6 +76,7 @@ class LeNet(tf.keras.Model):
         plt.legend(['train', 'validation'])
         plt.show()
 
+
 def optimizer(model):
     """Specifying a loss function, an optimizer, and metrics to monitor.
 
@@ -83,6 +90,3 @@ def optimizer(model):
         optimizer='adam',
         loss=tf.keras.losses.sparse_categorical_crossentropy,
         metrics=['accuracy'])
-
-
-    
