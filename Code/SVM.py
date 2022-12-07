@@ -16,7 +16,7 @@ class SVM:
         self.regularization = [0.25, 0.5, 0.75, 1.0]
         self.accuracy_list = []
         if kernel != "Linear" and kernel != "Polynomial" and kernel != "RBF":
-           sys.exit("!!!Please provide valid kernal!!!")
+            sys.exit("!!!Please provide valid kernal!!!")
         self.kernel = kernel
 
     def svm(self):

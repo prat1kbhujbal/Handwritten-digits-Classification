@@ -76,17 +76,16 @@ class LeNet(tf.keras.Model):
         plt.legend(['train', 'validation'])
         plt.show()
 
+    def optimizer(self):
+        """Specifying a loss function, an optimizer, and metrics to monitor.
 
-def optimizer(model):
-    """Specifying a loss function, an optimizer, and metrics to monitor.
+        Args:
+            model : model
 
-    Args:
-        model : model
-
-    Returns:
-        Compiled model
-    """
-    return model.compile(
-        optimizer='adam',
-        loss=tf.keras.losses.sparse_categorical_crossentropy,
-        metrics=['accuracy'])
+        Returns:
+            Compiled model
+        """
+        return self.compile(
+            optimizer='adam',
+            loss=tf.keras.losses.sparse_categorical_crossentropy,
+            metrics=['accuracy'])

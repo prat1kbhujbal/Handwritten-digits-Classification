@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 from SVM import SVM
 from LR import LogisticRegression
-from LeNet import LeNet, optimizer, plot
+from LeNet import LeNet
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
@@ -13,7 +13,7 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 def main():
     parse = argparse.ArgumentParser()
     parse.add_argument(
-        '--Method', default='LR',
+        '--Method', default='Lenet',
         help='classifiers')
     parse.add_argument(
         '--DimRed', default='LDA',
@@ -37,11 +37,11 @@ def main():
         val_x = X_train[:5000]
         val_y = y_train[:5000]
         model = LeNet()
-        optimizer(model)
+        model.optimizer()
         history = model.fit(
             X_train,
             y_train,
-            epochs=10,
+            epochs=2,
             validation_data=(
                 val_x,
                 val_y))
