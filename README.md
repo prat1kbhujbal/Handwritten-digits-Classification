@@ -1,6 +1,6 @@
 # Handwritten-digits-Classification
 ## Overview
-Hand written digit recognition using Logistic Regression, kernel SVM, Deep Neural Network (Lenet-5 architecture) with PCA or LDA dimensionality reduction for MINST dataset.
+Hand written digit recognition using Logistic Regression, kernel SVM, Deep Neural Network (Lenet-5 architecture) with PCA/LDA dimensionality reduction for MINST dataset.
 
 ## To run the code
 ### Deep Learning
